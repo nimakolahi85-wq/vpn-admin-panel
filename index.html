@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>پنل مدیریت فروش VPN Kolahi</title>
+<style>
+body {
+font-family: 'Arial', sans-serif;
+margin: 0;
+padding: 10px;
+background-color: #f4f4f4;
+color: #333;
+direction: rtl; /* Right-to-left for Persian */
+overflow-y: scroll; /* Make the page scrollable */
+height: 580px; /* Constrain height for iframe */
+box-sizing: border-box; /* Include padding in height */
+}
+.container {
+max-width: 580px; /* Adjusted for 600px iframe with padding */
+margin: 0 auto;
+background-color: #fff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h1, h2 {
+text-align: center;
+color: #0056b3;
+margin-bottom: 20px;
+}
+.input-group {
+margin-bottom: 15px;
+display: flex;
+flex-direction: column;
+}
+.input-group label {
+margin-bottom: 5px;
+font-weight: bold;
+}
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group input[type="date"] {
+width: calc(100% - 20px);
+padding: 10px;
+border: 1px solid #ddd;
+border-radius: 4px;
+box-sizing: border-box;
+font-size: 16px;
+}
+.input-group input[type="checkbox"] {
+margin-left: 10px;
+width: auto;
+}
+.checkbox-group {
+display: flex;
+align-items: center;
+margin-bottom: 15px;
+}
+button {
+background-color: #007bff;
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 16px;
+width: 100%;
+margin-top: 10px;
+}
+button:hover {
+background-color: #0056b3;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 25px;
+}
+table th, table td {
+border: 1px solid #ddd;
+padding: 10px;
+text-align: right;
+font-size: 0.9em; /* Smaller font for more columns */
+}
+table th {
+background-color: #f2f2f2;
+font-weight: bold;
+}
+.summary-section, .panel-recharge-section {
+margin-top: 25px;
+padding: 15px;
+background-color: #e9f7ef;
+border-radius: 8px;
+border: 1px solid #d4edda;
+}
+.summary-section p {
+margin: 8px 0;
+font-size: 1.1em;
+color: #28a745;
+}
+.summary-section p span {
+font-weight: bold;
+color: #0056b3;
+}
+.unpaid-section {
+margin-top: 30px;
+border-top: 1px solid #eee;
+padding-top: 20px;
+}
+.unpaid-section h2 {
+color: #dc3545; /* Red color for warning/debt */
+}
+.hidden {
+display: none;
+}
+.unpaid-row {
+background-color: #ffe6e6; /* Light red for unpaid rows in main table */
+}
+.unpaid-action-button {
+background-color: #dc3545;
+color: white;
+padding: 5px 10px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-size: 0.8em;
+width: auto;
+margin-top: 0;
+margin-left: 5px;
+display: inline-block;
+}
+.unpaid-action-button:hover {
+background-color: #c82333;
+}
+.panel-recharge-item {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 8px 0;
+border-bottom: 1px dashed #eee;
+}
+.panel-recharge-item:last-child {
+border-bottom: none;
+}
+
+/* Improved styling */
+.container {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    background: #ffffff;
+    border-radius: 12px;
+    padding-bottom: 30px;
+}
+h1, h2, h3 {
+    font-family: 'Tahoma', sans-serif;
+}
+button {
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+button:hover {
+    filter: brightness(1.05);
+}
+.monthly-section, .panel-recharge-section, .summary-section, #unpaidSection, #renewalAlerts, .sales-list {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 15px;
+    background-color: white;
+    margin-bottom: 20px;
+}
+#salesTable th, #unpaidSalesTable th, #panelRechargeTable th {
+    background-color: #f8f9fa;
+}
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #666;
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+}
+body {
+    background: linear-gradient(to bottom right, #f7f9fc, #eef2f7);
+}
+
+footer {
+    margin-top: 10px !important;
+    padding-bottom: 5px !important;
+}
+body {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+</style>
+<script src="chart.js"></script>
+<script src="jspdf.umd.min.js"></script>
+<script src="html2pdf.bundle.js"></script>
+</head>
+<body>
+<div class="container">
+<h1>پنل مدیریت فروش VPN Kolahi</h1>
+<div class="input-section">
+<h2>ثبت فروش جدید</h2>
+<div class="input-group">
+<label for="customerUsername">نام کاربری مشتری:</label>
+<input id="customerUsername" placeholder="مثال: user123" type="text"/>
+</div>
+<div class="input-group">
+<label for="packageName">نام بسته:</label>
+<select id="packageName" style="padding:10px; border:1px solid #ddd; border-radius:4px; font-size:16px;"><option value="15 مگابیت">15 مگابیت</option><option value="25 مگابیت">25 مگابیت</option><option value="50 مگابیت">50 مگابیت</option></select>
+</div>
+<div class="input-group">
+<label for="serverName">نام سرور:</label>
+<select id="serverName" style="padding:10px; border:1px solid #ddd; border-radius:4px; font-size:16px;"><option value="آمریکا">آمریکا</option><option value="فنلاند">فنلاند</option><option value="فرانسه">فرانسه</option></select>
+</div>
+<div class="input-group">
+<label for="purchasePrice">قیمت خرید (تومان):</label>
+<select id="purchasePrice" style="padding:10px; border:1px solid #ddd; border-radius:4px; font-size:16px;"><option value="64000">15 مگابیت – آمریکا — 64,000 تومان</option><option value="56000">15 مگابیت – فنلاند — 56,000 تومان</option><option value="86000">25 مگابیت – آمریکا — 86,000 تومان</option><option value="75000">25 مگابیت – فنلاند — 75,000 تومان</option><option value="135000">50 مگابیت – آمریکا — 135,000 تومان</option><option value="118000">50 مگابیت – فنلاند — 118,000 تومان</option><option value="">فرانسه — (قیمت تعیین نشده)</option></select>
+</div>
+<div class="input-group">
+<label for="salesPrice">قیمت فروش (تومان):</label>
+<input id="salesPrice" min="0" type="number" value="0"/>
+</div>
+<div class="input-group">
+<label for="customerPaymentDate">تاریخ پرداخت مشتری:</label>
+<input id="customerPaymentDate" type="date"/>
+</div>
+<div class="checkbox-group">
+<input checked="" id="isPaid" type="checkbox"/>
+<label for="isPaid">پرداخت شده است؟</label>
+</div>
+<button onclick="addSale()">افزودن فروش</button>
+</div>
+<div style="margin-bottom:15px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+<input id="searchInput" placeholder="جستجو نام مشتری..." style="padding:8px; flex:1; min-width:180px;" type="text"/>
+<label>از تاریخ: <input id="filterFrom" type="date"/></label>
+<label>تا تاریخ: <input id="filterTo" type="date"/></label>
+<select id="statusFilter" style="padding:8px;">
+<option value="all">همه</option>
+<option value="paid">پرداخت شده</option>
+<option value="unpaid">پرداخت نشده</option>
+</select>
+<button onclick="applyFilters()" style="padding:8px;">اعمال فیلتر</button>
+<button onclick="clearFilters()" style="padding:8px;">پاک کردن فیلترها</button>
+</div>
+<div class="sales-list">
+<h2>لیست کل فروش‌ها</h2>
+<table id="salesTable">
+<thead>
+<tr>
+<th>نام مشتری</th>
+<th>بسته</th>
+<th>سرور</th>
+<th>خرید</th>
+<th>فروش</th>
+<th>سود</th>
+<th>وضعیت</th>
+<th>تاریخ پایان</th>
+<th>تاریخ تسویه بدهی</th>
+</tr>
+</thead>
+<tbody id="salesTableBody">
+<!-- Sales will be appended here by JavaScript -->
+</tbody>
+</table>
+</div>
+<button onclick="toggleUnpaidSection()">نمایش/مخفی کردن بدهی‌ها</button>
+<div class="unpaid-section hidden" id="unpaidSection">
+<h2>بدهی‌ها / پرداخت نشده‌ها</h2>
+<table id="unpaidSalesTable">
+<thead>
+<tr>
+<th>نام مشتری</th>
+<th>نام بسته</th>
+<th>مبلغ بدهی</th>
+<th>عملیات</th>
+</tr>
+</thead>
+<tbody id="unpaidSalesTableBody">
+<!-- Unpaid sales will be appended here by JavaScript -->
+</tbody>
+</table>
+</div>
+<div id="renewalAlerts" style="margin-top:20px; padding:12px; background-color:#fff3f0; border:1px solid #ffd6d0; border-radius:8px;">
+<h3>هشدار تمدید (۳ روز آینده)</h3>
+<ul id="renewalList" style="margin:0; padding-right:15px;"></ul>
+</div>
+<div class="panel-recharge-section">
+<h2>شارژهای پنل من</h2>
+<div class="input-group">
+<label for="rechargeDate">تاریخ شارژ:</label>
+<input id="rechargeDate" type="date"/>
+</div>
+<div class="input-group">
+<label for="rechargeAmount">مبلغ شارژ (تومان):</label>
+<input id="rechargeAmount" min="0" type="number" value="0"/>
+</div>
+<button onclick="addPanelRecharge()">افزودن شارژ پنل</button>
+<h3>لیست شارژها:</h3>
+<table id="panelRechargeTable">
+<thead>
+<tr>
+<th>تاریخ</th>
+<th>مبلغ</th>
+</tr>
+</thead>
+<tbody id="panelRechargeTableBody">
+<!-- Panel recharges will be appended here -->
+</tbody>
+</table>
+</div>
+<div class="summary-section">
+<h2>خلاصه عملکرد</h2>
+<p>تعداد کل فروش‌ها: <span id="totalSalesCount">0</span></p>
+<p>سود کل: <span id="totalProfit">0</span> تومان</p>
+<p>مجموع خرید من از فروشنده: <span id="totalPurchaseCost">0</span> تومان</p>
+<p>تعداد دفعات شارژ پنل: <span id="panelRechargesCountDisplay">0</span></p>
+<p>هزینه کل شارژ پنل: <span id="totalRechargeCostDisplay">0</span> تومان</p>
+</div>
+<div class="monthly-section" style="margin-top:25px; padding:15px; background-color:#fff3cd; border-radius:8px; border:1px solid #ffeeba;">
+<h2>گزارش ماهانه</h2>
+<p>ماه جاری: <span id="currentMonth">-</span></p>
+<p>تعداد فروش این ماه: <span id="monthlySalesCount">0</span></p>
+<p>سود این ماه: <span id="monthlyProfit">0</span> تومان</p>
+<p>تغییر نسبت به ماه قبل: <span id="salesChange">0%</span> فروش / <span id="profitChange">0%</span> سود</p>
+<button onclick="downloadMonthlyReport()" style="background-color:#28a745; margin-top:10px;">دانلود گزارش ماهانه (CSV)</button>
+<div style="margin-top:18px; padding:12px; background:#f0f8ff; border-radius:8px; border:1px solid #dbeeff;">
+<h3>نمودار فروش و سود ماهانه</h3>
+<canvas height="250" id="salesChart" width="600"></canvas>
+<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+<button onclick="downloadMonthlyReport()" style="padding:8px;">دانلود گزارش ماهانه (CSV)</button>
+<button onclick="downloadMonthlyReportPDF()" style="padding:8px; background:#6f42c1; color:white;">دانلود PDF گزارش</button>
+<button onclick="downloadBackupJSON()" style="padding:8px; background:#17a2b8; color:white;">پشتیبان‌گیری (JSON)</button>
+</div>
+</div>
+</div>
+</div>
+<script></script><footer>© 2025 — پنل مدیریت فروش VPN Kolahi — طراحی شده با ❤️</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const purchaseDateInput = document.getElementById('purchaseDate');
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            const purchaseDateVal = purchaseDateInput.value;
+            if (purchaseDateVal) {
+                let pd = new Date(purchaseDateVal);
+                let endDate = new Date(pd);
+                endDate.setMonth(endDate.getMonth() + 1);
+                const endDateStr = endDate.toISOString().split('T')[0];
+                // Add a hidden input to store end date in table
+                let hiddenEndDate = document.createElement('input');
+                hiddenEndDate.type = 'hidden';
+                hiddenEndDate.name = 'endDate';
+                hiddenEndDate.value = endDateStr;
+                form.appendChild(hiddenEndDate);
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>
